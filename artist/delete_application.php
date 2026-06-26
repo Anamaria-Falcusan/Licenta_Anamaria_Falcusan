@@ -14,7 +14,6 @@ if ($id_aplicare <= 0) {
     exit;
 }
 
-// șterge doar dacă aplicarea aparține artistului logat
 $db->updateDB(
     "DELETE FROM aplicare WHERE id_aplicare = ? AND id_artist = ?",
     [$id_aplicare, $id_artist]
