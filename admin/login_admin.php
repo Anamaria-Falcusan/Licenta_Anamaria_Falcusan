@@ -1,12 +1,6 @@
 <?php
 require_once __DIR__ . "/../config/init.php";
 
-/**
- * login_admin.php (ORGANIZATOR)
- * - autentifică organizatorul
- * - păstrăm sesiunea exact cum ai spus: $_SESSION["admin_id"]
- */
-
 $errors = [];
 $success = "";
 
@@ -26,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       $errors[] = "Nu există cont cu acest email.";
     } else {
       if (password_verify($parola, $org["parola"])) {
-        $_SESSION["admin_id"] = (int)$org["id_organizator"]; // IMPORTANT
+        $_SESSION["admin_id"] = (int)$org["id_organizator"];
         header("Location: " . BASE_URL . "/admin/admin_home.php");
         exit;
       }
