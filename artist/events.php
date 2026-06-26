@@ -9,7 +9,7 @@ $id_artist = (int)$_SESSION["id_artist"];
 
 $events = $db->getDBResult("SELECT id_eveniment, nume, gen_muzical, locatie, data_eveniment FROM eveniment ORDER BY data_eveniment ASC");
 
-// aplicațiile mele (ca să nu pot aplica de 2 ori)
+
 $myApps = $db->getDBResult("SELECT id_eveniment, status FROM aplicare WHERE id_artist = ?", [$id_artist]);
 $map = [];
 foreach ($myApps as $a) $map[(int)$a["id_eveniment"]] = $a["status"];
