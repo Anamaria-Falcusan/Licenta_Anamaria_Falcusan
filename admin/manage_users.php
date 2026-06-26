@@ -9,7 +9,6 @@ if (!isset($_SESSION["admin_id"])) {
 $msg = "";
 $err = "";
 
-// Ștergere cont
 if (isset($_GET["del_artist"]) && is_numeric($_GET["del_artist"])) {
     $id = (int)$_GET["del_artist"];
     $db->updateDB("DELETE FROM artist_poze WHERE id_artist = ?", [$id]);
@@ -26,7 +25,7 @@ if (isset($_GET["del_spectator"]) && is_numeric($_GET["del_spectator"])) {
     $msg = "Contul de spectator a fost șters.";
 }
 
-// Fetch users
+
 $artisti    = $db->getDBResult("SELECT id_artist, nume, email, telefon, gen_muzical FROM artist ORDER BY id_artist") ?: [];
 $spectatori = $db->getDBResult("SELECT id_spectator, nume, email, telefon FROM spectator ORDER BY id_spectator") ?: [];
 
@@ -68,7 +67,7 @@ $tab = $_GET["tab"] ?? "artisti";
         <div class="alert success" style="margin-bottom:20px;"><?= htmlspecialchars($msg) ?></div>
     <?php endif; ?>
 
-    <!-- Tabs -->
+ 
     <div class="tab-bar">
         <button class="tab-btn <?= $tab === 'artisti' ? 'active' : '' ?>"
                 onclick="switchTab('artisti')">
@@ -80,7 +79,7 @@ $tab = $_GET["tab"] ?? "artisti";
         </button>
     </div>
 
-    <!-- Artiști -->
+   
     <div id="panel-artisti" style="display:<?= $tab === 'artisti' ? 'block' : 'none' ?>">
         <div class="card" style="padding:0; overflow:hidden;">
             <?php if (!$artisti): ?>
@@ -104,7 +103,7 @@ $tab = $_GET["tab"] ?? "artisti";
                         $index++;
                         ?>
                             <tr>
-                            <td><?php echo $index; ?></td> <!-- Număr secvențial -->
+                            <td><?php echo $index; ?></td> 
         <td><?php echo $artist['nume']; ?></td>
         <td><?php echo $artist['email']; ?></td>
         <td><?php echo $artist['telefon']; ?></td>
@@ -124,7 +123,7 @@ $tab = $_GET["tab"] ?? "artisti";
         </div>
     </div>
 
-    <!-- Spectatori -->
+    
     <div id="panel-spectatori" style="display:<?= $tab === 'spectatori' ? 'block' : 'none' ?>">
         <div class="card" style="padding:0; overflow:hidden;">
             <?php if (!$spectatori): ?>
