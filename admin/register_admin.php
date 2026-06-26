@@ -1,11 +1,6 @@
 <?php
 require_once __DIR__ . "/../config/init.php";
 
-/**
- * register_admin.php (ORGANIZATOR)
- * - creează cont de organizator în tabela "organizator"
- * - după creare, redirecționează la login
- */
 
 $errors = [];
 $success = "";
