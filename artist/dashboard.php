@@ -11,13 +11,13 @@ $rows = $db->getDBResult("SELECT * FROM artist WHERE id_artist = ?", [$id_artist
 if (!$rows) die("Artist inexistent.");
 $artist = $rows[0];
 
-// Galerie poze
+
 $poze = $db->getDBResult(
     "SELECT id_poza, url, descriere FROM artist_poze WHERE id_artist = ? ORDER BY id_poza DESC",
     [$id_artist]
 );
 
-// Statistici aplicări
+
 $stats = $db->getDBResult(
     "SELECT
         COUNT(*) AS total,
@@ -29,7 +29,7 @@ $stats = $db->getDBResult(
 );
 $st = $stats[0] ?? ["total"=>0,"acceptate"=>0,"respinse"=>0,"in_asteptare"=>0];
 
-// Handle upload poza galerie
+
 $flashError = "";
 $flashOk    = "";
 
@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && ($_POST["action"] ?? "") === "uploa
     }
 }
 
-// Ștergere poză
+
 if (isset($_GET["del"]) && is_numeric($_GET["del"])) {
     $db->updateDB("DELETE FROM artist_poze WHERE id_poza=? AND id_artist=?", [(int)$_GET["del"], $id_artist]);
     header("Location: " . BASE_URL . "/artist/dashboard.php");
@@ -74,10 +74,10 @@ $profileIncomplete = empty($artist["gen_muzical"]) || empty($artist["descriere"]
     <title><?= htmlspecialchars($artist["nume"]) ?> · MusicConnect</title>
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/style.css">
     <style>
-        /* ── top nav ── */
+        
         .ig-nav { display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; flex-wrap:wrap; gap:10px; }
 
-        /* ── profile header ── */
+       
         .ig-header { display:flex; gap:50px; align-items:flex-start; margin-bottom:6px; }
         .ig-avatar-col { flex-shrink:0; text-align:center; }
         .ig-avatar {
@@ -102,15 +102,15 @@ $profileIncomplete = empty($artist["gen_muzical"]) || empty($artist["descriere"]
         .ig-link { margin-top:6px; font-size:13px; }
         .ig-actions { display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; }
 
-        /* ── incomplete banner ── */
+        
         .banner-warn { display:flex; align-items:center; gap:14px; background:linear-gradient(135deg,#3d2a5a,#4a1f40); border:1px solid rgba(251,194,235,.4); border-radius:14px; padding:14px 18px; margin-bottom:20px; flex-wrap:wrap; }
 
-        /* ── gallery tabs ── */
+        
         .ig-tab-bar { display:flex; justify-content:center; gap:0; border-top:1px solid rgba(255,255,255,.1); border-bottom:1px solid rgba(255,255,255,.1); margin:0 -1px; }
         .ig-tab { padding:12px 24px; font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:#cfc7ff; cursor:pointer; border-top:2px solid transparent; transition:.2s; display:flex; align-items:center; gap:6px; }
         .ig-tab.active { color:#ffeefc; border-top-color:#ffeefc; }
 
-        /* ── grid ── */
+        
         .ig-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:3px; }
         .ig-cell { position:relative; aspect-ratio:1; overflow:hidden; background:#1a2550; cursor:pointer; }
         .ig-cell img { width:100%; height:100%; object-fit:cover; transition:transform .3s,filter .3s; display:block; }
@@ -120,14 +120,14 @@ $profileIncomplete = empty($artist["gen_muzical"]) || empty($artist["descriere"]
         .cell-view { background:rgba(255,255,255,.15); color:#fff; border:none; border-radius:8px; padding:6px 14px; font-size:13px; cursor:pointer; backdrop-filter:blur(4px); }
         .cell-del { background:rgba(220,38,38,.8); color:#fff; border:none; border-radius:8px; padding:6px 14px; font-size:13px; cursor:pointer; text-decoration:none; }
 
-        /* ── upload panel ── */
+        
         .upload-panel { display:none; padding:24px; border-top:1px solid rgba(255,255,255,.08); }
         .upload-panel.open { display:block; }
         .drop-zone { border:2px dashed rgba(255,255,255,.2); border-radius:14px; padding:32px; text-align:center; transition:border-color .3s; cursor:pointer; }
         .drop-zone:hover, .drop-zone.drag { border-color:#fbc2eb; background:rgba(251,194,235,.05); }
         .empty-gallery { text-align:center; padding:50px 20px; color:#cfc7ff; }
 
-        /* ── lightbox ── */
+        
         .lb { display:none; position:fixed; inset:0; background:rgba(0,0,0,.92); z-index:999; align-items:center; justify-content:center; }
         .lb.open { display:flex; }
         .lb img { max-width:92vw; max-height:88vh; border-radius:6px; }
@@ -145,7 +145,7 @@ $profileIncomplete = empty($artist["gen_muzical"]) || empty($artist["descriere"]
 <body>
 <div class="container">
 
-    <!-- Nav -->
+   
     <div class="ig-nav">
         <div class="brand"><h1>MusicConnect</h1></div>
         <div class="nav">
@@ -175,7 +175,7 @@ $profileIncomplete = empty($artist["gen_muzical"]) || empty($artist["descriere"]
         </div>
     <?php endif; ?>
 
-    <!-- Profile Header -->
+    
     <div class="card" style="padding:30px; margin-bottom:3px; border-radius:18px 18px 0 0;">
         <div class="ig-header">
             <div class="ig-avatar-col">
@@ -223,10 +223,10 @@ $profileIncomplete = empty($artist["gen_muzical"]) || empty($artist["descriere"]
         </div>
     </div>
 
-    <!-- Gallery section -->
+    
     <div class="card" style="padding:0; border-radius:0 0 18px 18px; overflow:hidden;">
 
-        <!-- Tab bar -->
+        
         <div class="ig-tab-bar">
             <div class="ig-tab active" id="tabGrid" onclick="showTab('grid')">
                 <span>▦</span> Galerie foto
@@ -236,7 +236,7 @@ $profileIncomplete = empty($artist["gen_muzical"]) || empty($artist["descriere"]
             </div>
         </div>
 
-        <!-- Upload panel -->
+       
         <div class="upload-panel" id="uploadPanel">
             <?php if ($flashError): ?>
                 <div class="alert error"><?= htmlspecialchars($flashError) ?></div>
@@ -269,7 +269,7 @@ $profileIncomplete = empty($artist["gen_muzical"]) || empty($artist["descriere"]
             </form>
         </div>
 
-        <!-- Grid panel -->
+        
         <div id="gridPanel">
             <?php if (!$poze): ?>
                 <div class="empty-gallery">
@@ -299,7 +299,7 @@ $profileIncomplete = empty($artist["gen_muzical"]) || empty($artist["descriere"]
 
 </div>
 
-<!-- Lightbox -->
+
 <div class="lb" id="lb" onclick="closeLb()">
     <span class="lb-close">✕</span>
     <img id="lbImg" src="" alt="">
@@ -315,7 +315,7 @@ function showTab(tab) {
     document.getElementById('tabGrid').classList.toggle('active', !isUpload);
 }
 
-// Preview imagine înainte de upload
+
 document.getElementById('imgInput').addEventListener('change', function() {
     const file = this.files[0];
     if (!file) return;
@@ -327,7 +327,7 @@ document.getElementById('imgInput').addEventListener('change', function() {
     reader.readAsDataURL(file);
 });
 
-// Drag & drop pe drop zone
+
 const dz = document.getElementById('dropZone');
 const fi = document.getElementById('imgInput');
 dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
@@ -341,7 +341,7 @@ dz.addEventListener('drop', e => {
     }
 });
 
-// Lightbox
+
 function openLb(src, desc) {
     document.getElementById('lbImg').src = src;
     document.getElementById('lbDesc').textContent = desc;
