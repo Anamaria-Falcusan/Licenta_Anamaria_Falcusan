@@ -1,11 +1,6 @@
 <?php
 require_once __DIR__ . "/../config/init.php";
 
-/**
- * Login Artist
- * Autentifică artistul pe baza email + parolă.
- */
-
 $errors = [];
 $success = "";
 
