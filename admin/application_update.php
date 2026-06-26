@@ -21,7 +21,6 @@ if (!in_array($status, ["acceptata", "respinsa"], true)) {
     exit;
 }
 
-// Verificăm că evenimentul aparține organizatorului logat
 $eventRows = $db->getDBResult(
     "SELECT id_eveniment FROM eveniment WHERE id_eveniment = ? AND id_organizator = ?",
     [$id_eveniment, $id_organizator]
@@ -32,7 +31,6 @@ if (!$eventRows) {
     exit;
 }
 
-// Verificăm că aplicarea există și aparține acelui eveniment
 $appRows = $db->getDBResult(
     "SELECT id_aplicare FROM aplicare WHERE id_aplicare = ? AND id_eveniment = ?",
     [$id_aplicare, $id_eveniment]
